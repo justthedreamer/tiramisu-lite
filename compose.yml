@@ -1,0 +1,24 @@
+﻿services:
+  backend:
+    build: ./backend
+    ports:
+      - "5217:8080"
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    links:
+      - "db:database"
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: tiramisu-lite
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
