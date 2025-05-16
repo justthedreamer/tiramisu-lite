@@ -1,0 +1,6 @@
+.env
+backend/.idea
+backend/tiramisu-lite/.idea
+backend/tiramisu-lite/bin
+backend/tiramisu-lite/obj
+backend/tiramisu-lite.sln.DotSettings.user
