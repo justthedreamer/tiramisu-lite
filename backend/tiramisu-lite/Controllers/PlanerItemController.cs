@@ -8,7 +8,7 @@ using tiramisu_lite.Exceptions;
 using tiramisu_lite.Model;
 using tiramisu_lite.Repositories;
 
-[Route("api/planer/{planerId:guid}/items")]
+[Route("api/profiles/{profileName}/planer/{planerId:guid}/items")]
 public abstract class PlanerItemController(
     IPlanerRepository planerRepository,
     IPlanerItemRepository planerItemRepository,
@@ -36,11 +36,11 @@ public abstract class PlanerItemController(
     [HttpPost]
     public async Task<ActionResult> Create(
         Guid planerId,
-        [FromBody] PlanerItemRequestData.Request request)
+        [FromBody] PlanerItemRequestData.CreateRequest createRequest)
     {
         var planer = await planerRepository.GetByIdAsync(planerId);
         NotFoundException.ThrowIfNull(planer, ExceptionMessages.PlanerNotFoundMessage(planerId));
-        var item = this.CreatePlanerItem(planerId, request.Props, request.Meals);
+        var item = this.CreatePlanerItem(planerId, createRequest.Props, createRequest.Meals);
         planerItemRepository.AddAsync(item);
         return this.Created();
     }
