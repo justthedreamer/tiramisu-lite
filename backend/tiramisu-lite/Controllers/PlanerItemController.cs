@@ -16,10 +16,10 @@ public class PlanerItemController(
     : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<PlanerItemDto>>> GetAll(string profileName, Guid planerId)
+    public async Task<ActionResult<IEnumerable<PlanerItemDto>>> GetAll(string profileName)
     {
-        var planer = await planerRepository.GetByIdAsync(planerId);
-        NotFoundException.ThrowIfNull(planer, ExceptionMessages.PlanerNotFoundMessage(planerId));
+        var planer = await planerRepository.GetByProfileName(profileName);
+        NotFoundException.ThrowIfNull(planer, ExceptionMessages.ProfileNotFoundMessage(profileName));
         var dto = planer.Items.Select(mapper.Map<PlanerItemDto>);
         return this.Ok(dto);
     }
