@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/features/settings/widges/change_name_dialog.dart';
 import 'package:mobile/features/settings/widges/delete_profile_dialog.dart';
 import 'package:mobile/features/settings/widges/setting_option_tile.dart';
-import 'package:mobile/state/profile_provider.dart';
+import 'package:mobile/state/profile_state.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/profile.dart';

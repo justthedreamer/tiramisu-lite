@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/features/home/screens/home_page.dart';
-import 'package:mobile/state/profile_provider.dart';
+import 'package:mobile/state/profile_state.dart';
 import 'package:provider/provider.dart';
 
 void main() {

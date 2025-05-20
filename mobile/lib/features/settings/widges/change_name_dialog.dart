@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/features/settings/logic/change_profile_name_service.dart';
-import 'package:mobile/state/profile_provider.dart';
+import 'package:mobile/state/profile_state.dart';
 
 class ChangeProfileNameDialog extends StatelessWidget {
   final ProfileState profileState;

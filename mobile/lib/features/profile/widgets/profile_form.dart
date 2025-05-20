@@ -41,11 +41,13 @@ class _CreateProfileFormState extends State<CreateProfileForm> {
             decoration: _buildInputDecoration(label: "Name"),
             validator: (value) => _validateName(value),
           ),
+          SizedBox(height: 16),
           TextFormField(
             controller: _avatarBase64Controller,
             decoration: _buildInputDecoration(label: "Avatar (Base64)"),
             validator: (value) => _validateAvatar(value),
           ),
+          SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: _submitting ? null : _submit,
             icon: _submitIcon(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/features/profile/screens/profile_page.dart';
 import 'package:mobile/model/profile.dart';
-import 'package:mobile/state/profile_provider.dart';
+import 'package:mobile/state/profile_state.dart';
 import 'package:provider/provider.dart';
 
 import '../../features/profile/screens/create_profile.dart';

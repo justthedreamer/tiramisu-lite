@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobile/model/profile.dart';
-import 'package:mobile/state/profile_provider.dart';
+import 'package:mobile/state/profile_state.dart';
 
 import '../../../shared/clients/profile_client.dart';
 import '../../../shared/helpers/scaffold_message_helper.dart';

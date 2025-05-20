@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/shared/navigation/profile_navigator.dart';
-import 'package:mobile/state/profile_provider.dart';
+import 'package:mobile/state/profile_state.dart';
 
 import '../../../model/profile.dart';
 import '../../options/ui/builders/options_grid_builder.dart';
