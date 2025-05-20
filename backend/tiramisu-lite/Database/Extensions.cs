@@ -20,6 +20,8 @@ public static class Extensions
             .AddScoped<IShoppingListItemRepository, ShoppingListItemRepository>()
             .AddScoped<IShoppingListRepository, ShoppingListRepository>();
 
+        services.AddHostedService<MigrationService>();
+
         return services;
     }
 
