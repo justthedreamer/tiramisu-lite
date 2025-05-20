@@ -9,7 +9,7 @@ using tiramisu_lite.Model;
 using tiramisu_lite.Repositories;
 
 [Route("api/profiles/{profileName}/planer/{planerId:guid}/items")]
-public abstract class PlanerItemController(
+public class PlanerItemController(
     IPlanerRepository planerRepository,
     IPlanerItemRepository planerItemRepository,
     IMapper mapper)
