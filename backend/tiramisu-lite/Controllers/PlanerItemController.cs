@@ -8,7 +8,7 @@ using tiramisu_lite.Exceptions;
 using tiramisu_lite.Model;
 using tiramisu_lite.Repositories;
 
-[Route("api/profiles/{profileName}/planer/{planerId:guid}/items")]
+[Route("api/profiles/{profileName}/planer/items")]
 public class PlanerItemController(
     IPlanerRepository planerRepository,
     IPlanerItemRepository planerItemRepository,
@@ -16,7 +16,7 @@ public class PlanerItemController(
     : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<PlanerItemDto>>> GetAll(Guid planerId)
+    public async Task<ActionResult<IEnumerable<PlanerItemDto>>> GetAll(string profileName, Guid planerId)
     {
         var planer = await planerRepository.GetByIdAsync(planerId);
         NotFoundException.ThrowIfNull(planer, ExceptionMessages.PlanerNotFoundMessage(planerId));
@@ -25,7 +25,7 @@ public class PlanerItemController(
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<PlanerItemDto>> GetById(Guid id)
+    public async Task<ActionResult<PlanerItemDto>> GetById(string profileName, Guid id)
     {
         var item = await planerItemRepository.GetByIdAsync(id);
         NotFoundException.ThrowIfNull(item, ExceptionMessages.PlanerItemNotFoundMessage(id));
@@ -35,18 +35,19 @@ public class PlanerItemController(
 
     [HttpPost]
     public async Task<ActionResult> Create(
-        Guid planerId,
+        string profileName,
         [FromBody] PlanerItemRequestData.CreateRequest createRequest)
     {
-        var planer = await planerRepository.GetByIdAsync(planerId);
-        NotFoundException.ThrowIfNull(planer, ExceptionMessages.PlanerNotFoundMessage(planerId));
-        var item = this.CreatePlanerItem(planerId, createRequest.Props, createRequest.Meals);
+        var planer = await planerRepository.GetByProfileName(profileName);
+        NotFoundException.ThrowIfNull(planer, ExceptionMessages.ProfileNotFoundMessage(profileName));
+        var item = this.CreatePlanerItem(planer.Id, createRequest.Props, createRequest.Meals);
         planerItemRepository.AddAsync(item);
         return this.Created();
     }
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult> Update(
+        string profileName,
         Guid id,
         [FromBody] PlanerItemRequestData.Props props)
     {
@@ -60,7 +61,7 @@ public class PlanerItemController(
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<ActionResult> Delete()
+    public async Task<ActionResult> Delete(string profileName, Guid id)
     {
         var item = await planerItemRepository.GetByIdAsync(Guid.NewGuid());
         NotFoundException.ThrowIfNull(item, ExceptionMessages.PlanerItemNotFoundMessage(item.Id));
