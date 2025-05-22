@@ -36,11 +36,11 @@ public class PlanerItemController(
     [HttpPost]
     public async Task<ActionResult> Create(
         string profileName,
-        [FromBody] PlanerItemRequestData.CreateRequest createRequest)
+        [FromBody] PlanerItemCreateData createRequest)
     {
         var planer = await planerRepository.GetByProfileName(profileName);
         NotFoundException.ThrowIfNull(planer, ExceptionMessages.ProfileNotFoundMessage(profileName));
-        var item = this.CreatePlanerItem(planer.Id, createRequest.Props, createRequest.Meals);
+        var item = CreatePlanerItem(planer.Id, createRequest.Props, createRequest.Meals);
         planerItemRepository.AddAsync(item);
         return this.Created();
     }
@@ -49,7 +49,7 @@ public class PlanerItemController(
     public async Task<ActionResult> Update(
         string profileName,
         Guid id,
-        [FromBody] PlanerItemRequestData.Props props)
+        [FromBody] PlanerItemProps props)
     {
         var item = await planerItemRepository.GetByIdAsync(id);
         NotFoundException.ThrowIfNull(item, ExceptionMessages.PlanerItemNotFoundMessage(id));
@@ -69,10 +69,10 @@ public class PlanerItemController(
         return this.NoContent();
     }
 
-    private PlanerItem CreatePlanerItem(
+    private static PlanerItem CreatePlanerItem(
         Guid planerId,
-        PlanerItemRequestData.Props props,
-        IEnumerable<MealRequestData.Props> meals)
+        PlanerItemProps props,
+        IEnumerable<MealProps> meals)
     {
         var planerItemId = Guid.NewGuid();
         var planerItem = new PlanerItem(planerItemId, planerId, props.Title, props.EatDate, props.Notify)

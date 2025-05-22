@@ -11,10 +11,7 @@ builder.Services.AddLogging();
 builder.Services.AddControllers();
 builder.Services.AddPostgres(builder.Configuration);
 builder.Services.AppDtoMapping();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.CustomSchemaIds(type => type.FullName);
-});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

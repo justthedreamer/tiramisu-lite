@@ -25,7 +25,7 @@ public class ShoppingListItemController(
     [HttpPost]
     public async Task<ActionResult> Create(
         Guid shoppingListId,
-        [FromBody] ShoppingListItemRequestData.Props props)
+        [FromBody] ShoppingListItemProps props)
     {
         var item = new ShoppingListItem(Guid.NewGuid(), shoppingListId, props.Name, props.Completed);
         shoppingListItemRepository.AddAsync(item);
@@ -35,7 +35,7 @@ public class ShoppingListItemController(
     [HttpPut("{id:guid}")]
     public async Task<ActionResult> Update(
         Guid id,
-        [FromBody] ShoppingListItemRequestData.Props props)
+        [FromBody] ShoppingListItemProps props)
     {
         var item = await shoppingListItemRepository.GetByIdAsync(id);
         NotFoundException.ThrowIfNull(item, ExceptionMessages.ShoppingListItemNotFoundMessage(id));
