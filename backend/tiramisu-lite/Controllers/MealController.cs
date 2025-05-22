@@ -23,7 +23,7 @@ public class MealController(
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> Update(Guid id, [FromBody] MealRequestData.Props props)
+    public async Task<ActionResult> Update(Guid id, [FromBody] MealProps props)
     {
         var meal = await mealRepository.GetByIdAsync(id);
         NotFoundException.ThrowIfNull(meal, ExceptionMessages.MealNotFoundMessage(id));

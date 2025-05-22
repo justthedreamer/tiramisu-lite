@@ -36,12 +36,12 @@ public class ShoppingListController(
     [HttpPost]
     public async Task<ActionResult> Create(
         string profileName,
-        [FromBody] ShoppingListRequestData.Request request)
+        [FromBody] ShoppingListCreateData request)
     {
         var itemId = Guid.NewGuid();
         var profile = await profileRepository.GetByNameAsync(profileName);
         NotFoundException.ThrowIfNull(profile, ExceptionMessages.ProfileNotFoundMessage(profileName));
-        var item = new ShoppingList(itemId, profile.Id, request.Props.Name, DateTime.Now)
+        var item = new ShoppingList(itemId, profile.Id, request.Name, DateTime.Now)
         {
             ShoppingListItems = request.Items
                 .Select(item => new ShoppingListItem(Guid.NewGuid(), itemId, item.Name, item.Completed)),
@@ -53,7 +53,7 @@ public class ShoppingListController(
     [HttpPut("{id:guid}")]
     public async Task<ActionResult> Update(
         Guid id,
-        [FromBody] ShoppingListRequestData.Props props)
+        [FromBody] ShoppingListProps props)
     {
         var list = await shoppingListRepository.GetByIdAsync(id);
         NotFoundException.ThrowIfNull(list, ExceptionMessages.ShoppingListNotFoundMessage(id));

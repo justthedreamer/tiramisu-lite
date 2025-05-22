@@ -1,8 +1,5 @@
 ﻿namespace tiramisu_lite.Controllers.Requests;
 
-public class ShoppingListRequestData
-{
-    public record Props(string Name);
+public sealed record ShoppingListProps(string Name);
 
-    public record Request(Props Props, IEnumerable<ShoppingListItemRequestData.Props> Items);
-}
+public sealed record ShoppingListCreateData(string Name, IEnumerable<ShoppingListItemProps> Items);
