@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/features/planer/screen/planer_page.dart';
+import 'package:mobile/features/proportion_scaling/ui/screens/proportion_scaling_page.dart';
+import 'package:mobile/features/shopping_list/ui/screens/shopping_list_page.dart';
 
-import '../../features/home/screens/home_page.dart';
 import '../../features/options/data/option_config.dart';
+import '../../features/planer/ui/screens/planer_page.dart';
 import '../../features/settings/screens/settings-screen.dart';
 
 class ToolsNavigator {
@@ -16,25 +17,18 @@ class ToolsNavigator {
       OptionConfig(
         label: "Shopping List",
         icon: Icons.shopping_cart,
-        destinationBuilder: () => HomePage(),
-      ),
-      OptionConfig(
-        label: "Gramature Scaling",
-        icon: Icons.scale,
-        destinationBuilder: () => HomePage(),
+        destinationBuilder: () => ShoppingListPage(),
       ),
       OptionConfig(
         label: "Proportion Scaling",
         icon: Icons.aspect_ratio,
-        destinationBuilder: () => HomePage(),
+        destinationBuilder: () => ProportionScalingPage(),
       ),
       OptionConfig(
         label: "Settings",
         icon: Icons.settings,
-        destinationBuilder: () => SettingsScreen(),
+        destinationBuilder: () => SettingsPage(),
       ),
     ];
   }
 }
-
-

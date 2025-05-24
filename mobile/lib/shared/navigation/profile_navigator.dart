@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/features/profile/screens/profile_page.dart';
+import 'package:mobile/features/profile/ui/screens/profile_page.dart';
 import 'package:mobile/model/profile.dart';
 import 'package:mobile/state/profile_state.dart';
 import 'package:provider/provider.dart';
 
-import '../../features/profile/screens/create_profile.dart';
+import '../../features/home/screens/profile_form_page.dart';
 
 class ProfileNavigator {
   static Future<bool> openCreateProfile({required BuildContext context}) async {
