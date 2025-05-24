@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class OptionsGridBuilder {
-  List<Material> _options = [];
+  List<Widget> _options = [];
 
-  OptionsGridBuilder withOptions(List<Material> options) {
+  OptionsGridBuilder withOptions(List<Widget> options) {
     _options = options;
     return this;
   }

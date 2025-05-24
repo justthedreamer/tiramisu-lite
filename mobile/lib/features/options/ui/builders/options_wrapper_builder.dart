@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobile/shared/helpers/container_helper.dart';
 
 class OptionsWrapperBuilder {
-  static Widget buildOptionsWrapper({
-    required Widget header,
-    required Widget options,
-  }) {
+  Widget build({required Widget header, required Widget options}) {
     return Center(
       child: Container(
         constraints: ContainerHelper.getCommonBoxConstrain(),
