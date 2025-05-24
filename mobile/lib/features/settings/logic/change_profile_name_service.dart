@@ -6,32 +6,23 @@ import '../../../shared/clients/profile_client.dart';
 import '../../../shared/helpers/scaffold_message_helper.dart';
 
 class ChangeProfileNameService {
-  static Future<void> changeName({
-    required BuildContext context,
+  static Future<String?> changeName({
     required ProfileState profileState,
     required String newName,
   }) async {
     final profile = profileState.activeProfile!;
-
-    var requestProfile = Profile(
+    final requestProfile = Profile(
       name: newName,
       avatarBase64: profile.avatarBase64,
     );
 
-    final result = await ProfileClient.update(profile.name, requestProfile);
-
-    if (result) {
+    try {
+      await ProfileClient.update(profile.name, requestProfile);
       profileState.setActiveProfile(requestProfile);
-      if (context.mounted) {
-        ScaffoldMessageHelper.showSnackBar(context, "Profile name changed");
-        Navigator.pop(context);
-      }
-      return;
-    } else if (context.mounted) {
-      ScaffoldMessageHelper.showSnackBar(
-        context,
-        "Failed to change profile name",
-      );
+      return null;
+    } catch (e) {
+      return e.toString();
     }
   }
 }
+

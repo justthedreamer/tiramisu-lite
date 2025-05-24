@@ -1,41 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/features/common/ui/builders/app_bar_builder.dart';
-import 'package:mobile/features/settings/widges/setting_options.dart';
-import 'package:mobile/shared/helpers/container_helper.dart';
+import 'package:mobile/features/settings/widgets/profile_header.dart';
+import 'package:provider/provider.dart';
 
-import '../../profile/ui/profile_header.dart';
+import '../../../state/profile_state.dart';
+import '../widgets/change_name_dialog.dart';
+import '../widgets/delete_profile_dialog.dart';
+import '../widgets/setting_option_tile.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
+    final profileState = context.watch<ProfileState>();
+    final profile = profileState.activeProfile!;
+
     return Scaffold(
-      appBar: AppBarBuilder().build(),
-      body: Container(
-        constraints: ContainerHelper.getCommonBoxConstrain(),
-        padding: ContainerHelper.getCommonEdgeInsets(),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 8,
-                offset: Offset(0, 2),
-              ),
+      appBar: AppBarBuilder().withTitle("Settings").build(),
+      body: Material(
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.all(16), child: ProfileHeader()),
+            SettingsOptionTile(
+              icon: Icons.edit,
+              title: "Change profile name",
+              onTap: () => _showChangeProfileNameDialog(profileState),
+            ),
+            SettingsOptionTile(
+              icon: Icons.delete,
+              title: "Delete profile",
+              onTap: () => _showDeleteProfileDialog(profileState),
+            ),
+            if (_loading) ...[
+              const SizedBox(height: 12),
+              const CircularProgressIndicator(),
             ],
-          ),
-          child: Column(
-            children: [
-              ProfileHeader(),
-              SizedBox(height: 16),
-              SettingOptions(),
-            ],
-          ),
+          ],
         ),
       ),
     );
+  }
+
+  void _showChangeProfileNameDialog(ProfileState profileState) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => ChangeProfileNameDialog(
+            profileState: profileState,
+            onLoadingChanged: _setLoading,
+          ),
+    );
+  }
+
+  void _showDeleteProfileDialog(ProfileState profileState) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => DeleteProfileDialog(
+            profileState: profileState,
+            onLoadingChanged: _setLoading,
+          ),
+    );
+  }
+
+  void _setLoading(bool value) {
+    if (mounted) {
+      setState(() {
+        _loading = value;
+      });
+    }
   }
 }

@@ -1,27 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/features/home/screens/home_page.dart';
-import 'package:mobile/shared/helpers/scaffold_message_helper.dart';
-
 import '../../../shared/clients/profile_client.dart';
+import '../../../state/profile_state.dart';
 
 class ProfileDeleteService {
-  static Future<void> deleteProfile(
-    BuildContext context,
-    String profileName,
-  ) async {
-    final result = await ProfileClient.delete(profileName);
-    if (!context.mounted) {
-      return;
+  static Future<String?> deleteProfile({
+    required ProfileState profileState,
+    required String profileName,
+  }) async {
+    try {
+      await ProfileClient.delete(profileName);
+      profileState.setActiveProfile(null);
+      return null;
+    } catch (e) {
+      return e.toString();
     }
-
-    if (result) {
-      ScaffoldMessageHelper.showSnackBar(context, "Profile deleted");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomePage()),
-      );
-      return;
-    }
-    ScaffoldMessageHelper.showSnackBar(context, "Failed to delete profile");
   }
 }
+
