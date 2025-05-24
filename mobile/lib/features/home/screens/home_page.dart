@@ -5,33 +5,18 @@ import 'package:provider/provider.dart';
 import '../../../shared/navigation/profile_navigator.dart';
 import '../../common/ui/builders/app_bar_builder.dart';
 import '../widgets/create_profile_fab.dart';
-import '../widgets/profiles_grid_section.dart';
+import '../widgets/profiles_section.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<ProfileState>().fetchProfiles(),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final profileState = context.watch<ProfileState>();
-
     return Scaffold(
-      appBar: AppBarBuilder().build(),
+      appBar: AppBarBuilder().withTitle("Profiles").build(),
       body: RefreshIndicator(
         onRefresh: () => context.read<ProfileState>().fetchProfiles(),
-        child: ProfilesSection(profileState: profileState),
+        child: SizedBox.expand(child: ProfilesSection()),
       ),
       floatingActionButton: CreateProfileFab(
         onPressed: () => _openCreateProfilePage(context),
