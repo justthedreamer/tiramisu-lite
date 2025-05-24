@@ -16,7 +16,7 @@ class Meal {
       id: json['id'],
       name: json['name'],
       description: json['description'],
-      kcal: (json['kcal'] as num).toDouble(),
+      kcal: (json['kcal']).toDouble(),
     );
   }
 

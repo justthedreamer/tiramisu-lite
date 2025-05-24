@@ -1,20 +1,22 @@
+import 'package:mobile/model/planer_item.dart';
+
 class Planer {
   final String id;
-  final List<String> planerItems;
+  final List<PlanerItem> items;
 
-  Planer({required this.id, required this.planerItems});
+  Planer({required this.id, required this.items});
 
   factory Planer.fromJson(Map<String, dynamic> json) {
     return Planer(
       id: json['id'],
-      planerItems: List<String>.from(json['planerItems']),
+      items:
+          (json['items'] as List)
+              .map((item) => PlanerItem.fromJson(item))
+              .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'planerItems': planerItems,
-    };
+    return {'id': id, 'planerItems': items};
   }
 }

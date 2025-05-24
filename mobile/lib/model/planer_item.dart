@@ -20,12 +20,30 @@ class PlanerItem {
   factory PlanerItem.fromJson(Map<String, dynamic> json) {
     return PlanerItem(
       id: json['id'],
-      title: json['name'],
+      title: json['title'],
       eatTime: DateTime.parse(json['eatTime']),
       meals:
           (json['meals'] as List).map((meal) => Meal.fromJson(meal)).toList(),
-      kcalSummary: json['kcalSummary'],
+      kcalSummary: (json['kcalSummary']).toDouble(),
       notify: json['notify'],
+    );
+  }
+
+  PlanerItem copyWith({
+    String? id,
+    String? title,
+    DateTime? eatTime,
+    List<Meal>? meals,
+    double? kcalSummary,
+    bool? notify,
+  }) {
+    return PlanerItem(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      eatTime: eatTime ?? this.eatTime,
+      meals: meals ?? this.meals,
+      kcalSummary: kcalSummary ?? this.kcalSummary,
+      notify: notify ?? this.notify,
     );
   }
 }
