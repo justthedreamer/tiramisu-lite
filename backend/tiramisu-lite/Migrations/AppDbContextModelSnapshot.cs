@@ -67,7 +67,7 @@ namespace tiramisu_lite.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("EatTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("Notify")
                         .HasColumnType("boolean");
@@ -114,7 +114,7 @@ namespace tiramisu_lite.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()

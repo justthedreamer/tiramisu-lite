@@ -10,7 +10,9 @@ public class ShoppingListRepository(AppDbContext dbContext)
 {
     public async Task<IEnumerable<ShoppingList>> GetAllAsync(Expression<Func<ShoppingList, bool>>? predicate = null)
     {
-        var query = this.dbSet.AsQueryable();
+        var query = this.dbSet
+            .Include(sl => sl.ShoppingListItems)
+            .AsQueryable();
 
         if (predicate is not null)
         {
@@ -18,5 +20,12 @@ public class ShoppingListRepository(AppDbContext dbContext)
         }
 
         return await query.ToListAsync();
+    }
+
+    public async Task<ShoppingList?> GetByIdAsync(Guid id)
+    {
+        return await this.dbSet
+            .Include(sl => sl.ShoppingListItems)
+            .FirstOrDefaultAsync(list => list.Id == id);
     }
 }

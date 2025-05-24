@@ -28,8 +28,8 @@ public class ShoppingListItemController(
         [FromBody] ShoppingListItemProps props)
     {
         var item = new ShoppingListItem(Guid.NewGuid(), shoppingListId, props.Name, props.Completed);
-        shoppingListItemRepository.AddAsync(item);
-        return this.CreatedAtAction(nameof(GetById), new { id = item.Id }, item);
+        await shoppingListItemRepository.AddAsync(item);
+        return this.Created();
     }
 
     [HttpPut("{id:guid}")]
@@ -41,7 +41,7 @@ public class ShoppingListItemController(
         NotFoundException.ThrowIfNull(item, ExceptionMessages.ShoppingListItemNotFoundMessage(id));
         item.UpdateName(props.Name);
         item.UpdateCompleted(props.Completed);
-        shoppingListItemRepository.UpdateAsync(item);
+        await shoppingListItemRepository.UpdateAsync(item);
         return this.NoContent();
     }
 
@@ -50,7 +50,7 @@ public class ShoppingListItemController(
     {
         var item = await shoppingListItemRepository.GetByIdAsync(id);
         NotFoundException.ThrowIfNull(item, ExceptionMessages.ShoppingListItemNotFoundMessage(id));
-        shoppingListItemRepository.RemoveAsync(item);
+        await shoppingListItemRepository.RemoveAsync(item);
         return this.NoContent();
     }
 }

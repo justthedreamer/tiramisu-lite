@@ -12,7 +12,7 @@ using tiramisu_lite.Database;
 namespace tiramisu_lite.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250516122005_Init")]
+    [Migration("20250522125630_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -70,7 +70,7 @@ namespace tiramisu_lite.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("EatTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("Notify")
                         .HasColumnType("boolean");
@@ -117,7 +117,7 @@ namespace tiramisu_lite.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()

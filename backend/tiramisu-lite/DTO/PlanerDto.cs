@@ -1,5 +1,7 @@
 ﻿namespace tiramisu_lite.DTO;
 
-public record PlanerDto(
-    Guid Id,
-    IEnumerable<PlanerItemDto> PlanerItems);
+public class PlanerDto
+{
+    public Guid Id { get; init; }
+    public IEnumerable<PlanerItemDto> Items { get; init; }
+}

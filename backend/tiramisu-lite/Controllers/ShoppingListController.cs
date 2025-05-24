@@ -20,7 +20,7 @@ public class ShoppingListController(
     {
         var list = await shoppingListRepository
             .GetAllAsync(shoppingList => shoppingList.Profile.Name == profileName);
-        var dto = mapper.Map<ShoppingListDto>(list);
+        var dto = list.Select(mapper.Map<ShoppingList, ShoppingListDto>);
         return this.Ok(dto);
     }
 
@@ -47,7 +47,7 @@ public class ShoppingListController(
                 .Select(item => new ShoppingListItem(Guid.NewGuid(), itemId, item.Name, item.Completed)),
         };
         await shoppingListRepository.AddAsync(item);
-        return this.CreatedAtAction(nameof(this.GetById), new { id = itemId }, item);
+        return this.Created();
     }
 
     [HttpPut("{id:guid}")]

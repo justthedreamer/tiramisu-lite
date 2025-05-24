@@ -41,7 +41,7 @@ public class PlanerItemController(
         var planer = await planerRepository.GetByProfileName(profileName);
         NotFoundException.ThrowIfNull(planer, ExceptionMessages.ProfileNotFoundMessage(profileName));
         var item = CreatePlanerItem(planer.Id, createRequest.Props, createRequest.Meals);
-        planerItemRepository.AddAsync(item);
+        await planerItemRepository.AddAsync(item);
         return this.Created();
     }
 
@@ -63,9 +63,9 @@ public class PlanerItemController(
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> Delete(string profileName, Guid id)
     {
-        var item = await planerItemRepository.GetByIdAsync(Guid.NewGuid());
+        var item = await planerItemRepository.GetByIdAsync(id);
         NotFoundException.ThrowIfNull(item, ExceptionMessages.PlanerItemNotFoundMessage(item.Id));
-        planerItemRepository.RemoveAsync(item);
+        await planerItemRepository.RemoveAsync(item);
         return this.NoContent();
     }
 

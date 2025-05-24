@@ -29,7 +29,7 @@ namespace tiramisu_lite.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     PlanerId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    EatTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EatTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Notify = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -90,7 +90,7 @@ namespace tiramisu_lite.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProfileId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
