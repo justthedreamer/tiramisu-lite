@@ -1,72 +1,76 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/config/api_config.dart';
 import 'package:mobile/model/profile.dart';
 
+import '../helpers/client_helper.dart';
+
 class ProfileClient {
   static Future<List<Profile>> fetch() async {
-    final response = await http.get((Uri.parse(ApiConfig.profiles)));
-
-    if (response.statusCode == HttpStatus.ok) {
-      List<dynamic> jsonList = json.decode(response.body);
-      return jsonList.map((json) => Profile.fromJson(json)).toList();
-    } else {
-      throw Exception("Failed to load profiles");
-    }
-  }
-
-  static Future<bool> update(String profileName,Profile profile) async {
+    const errorMessage = "Failed to load profiles.";
     try {
-      final response = await http.put(
-        Uri.parse("${ApiConfig.profiles}/$profileName"),
-        headers: {HttpHeaders.contentTypeHeader: ContentType.json.toString()},
-        body: jsonEncode(profile),
-      );
+      final response = await http.get(ApiConfig.routes.profile.fetch());
 
-      if (response.statusCode == HttpStatus.noContent) {
-        return true;
+      if (response.statusCode == HttpStatus.ok) {
+        final jsonList = json.decode(response.body) as List;
+        return jsonList.map((json) => Profile.fromJson(json)).toList();
       }
-      return false;
-    } catch (e) {
-      debugPrint(e.toString());
-      return false;
+
+      throw Exception(HttpClientHelper.extractError(response, fallback: errorMessage));
+    } catch (_) {
+      throw Exception(errorMessage);
     }
   }
 
-  static Future<bool> create(Profile profile) async {
+  static Future<void> create(Profile profile) async {
+    const errorMessage = "Failed to create profile.";
     try {
       final response = await http.post(
-        Uri.parse(ApiConfig.profiles),
-        headers: <String, String>{'Content-Type': 'application/json'},
+        ApiConfig.routes.profile.create(),
+        headers: {'Content-Type': 'application/json'},
         body: jsonEncode(profile),
       );
 
-      if (response.statusCode == HttpStatus.created) {
-        return true;
-      } else {
-        return false;
+      if (response.statusCode != HttpStatus.created) {
+        throw Exception(HttpClientHelper.extractError(response, fallback: errorMessage));
       }
-    } catch (e) {
-      debugPrint(e.toString());
-      return false;
+    } catch (_) {
+      throw Exception(errorMessage);
     }
   }
 
-  static Future<bool> delete(String profileName) async {
+  static Future<void> update(String profileName, Profile profile) async {
+    const errorMessage = "Failed to update profile.";
     try {
-      var url = Uri.parse("${ApiConfig.profiles}/$profileName");
-      final response = await http.delete(url);
+      final response = await http.put(
+        ApiConfig.routes.profile.update(profileName),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(profile),
+      );
 
-      if (response.statusCode == HttpStatus.noContent) {
-        return true;
+      if (response.statusCode != HttpStatus.noContent) {
+        throw Exception(HttpClientHelper.extractError(response, fallback: errorMessage));
       }
-      return false;
-    } catch (e) {
-      debugPrint(e.toString());
-      return false;
+    } catch (_) {
+      throw Exception(errorMessage);
     }
   }
+
+  static Future<void> delete(String profileName) async {
+    const errorMessage = "Failed to delete profile.";
+    try {
+      final response = await http.delete(
+        ApiConfig.routes.profile.delete(profileName),
+      );
+
+      if (response.statusCode != HttpStatus.noContent) {
+        throw Exception(HttpClientHelper.extractError(response, fallback: errorMessage));
+      }
+    } catch (_) {
+      throw Exception(errorMessage);
+    }
+  }
+  
 }
